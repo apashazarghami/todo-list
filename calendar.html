@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>To Do List</title>
+        <link rel="stylesheet" href="/styles/style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <header class="header">
+                <div class="header-content">
+                   <img src="/images/arrow-left.png" alt="arrow-left" />
+                   <img src="/images/more.png" alt="more" /> 
+                </div>
+                <div class="header-content">
+                    <h3 class="heading">
+                        New Task
+                    </h3>
+                    <div>
+                        <span class="day"></span> <span class="date"></span><span>th</span> <span class="month"></span>
+                    </div>
+                </div>
+            </header>
+            <main class="main">
+                <div class="previous-next-month">
+                    <a class="previous-month" href="#"></a>
+                    <div>
+                        <span class="month-of-year"></span> <span class="year"></span>
+                    </div>
+                    <a class="next-month" href="#"></a>
+                </div>
+                <div>
+                    <table class="calendar">
+                        <tbody class="t-body">
+
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+            <div class="add-task-card">
+                <div class="new-task-section">
+                    <h3 class="title">New Task</h3>
+                    <input type="text" placeholder="Meeting: UX Case" />
+                </div>
+                <div class="notes-section">
+                    <h3 class="title">Notes</h3>
+                    <input type="text" placeholder="Discuss: militon" />
+                </div>
+                <div class="days">
+                    <div>
+                        <img src="/images/checklist.png" alt="checklist" />
+                        <span>Today</span>
+                    </div>
+                    <div>
+                        <img src="/images/checklist.png" alt="checklist" />
+                        <span>Tomorrow</span>
+                    </div>
+                    <div>
+                        <img src="/images/checklist.png" alt="checklist" />
+                        <span>Another day</span>
+                    </div>
+                </div>
+                <div class="schedule">
+                    <div class="time-section">
+                        <div>Time</div>
+                        <img src="/images/time.png" alt="time" />
+                    </div>
+                    <div class="alarm-section">
+                        <div>Alarm</div>
+                        <img src="/images/alarm.png" alt="alarm" />
+                    </div>
+                    <div>
+                        <div>03:00 PM</div>
+                    </div>
+                    <div>
+                        <div>02:30 PM</div>
+                    </div>
+                </div>
+                <div class="add-task-button">ADD TASK</div>
+            </div>
+        </div> 
+        <script src="/javascript/calendar.js"></script>
+    </body>
+</html>
