@@ -1,223 +1,374 @@
-const myDate = new Date();
-const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-const today = myDate.getDate();
-const year = myDate.getFullYear();
-const header = document.querySelector(".header");
-// const getData = JSON.parse(localStorage.getItem("todo")); //attention اگر کد خراب شد اینو از کامنت دربیار و همینو تو لوکال استوریج لود پاک کن
-let yearOfWeek = header.children[0].children[0].children[3].innerText;
-let monthOfWeek = header.children[0].children[0].children[2].innerText;
-let myDiv;
+const myDate = new Date(),
+  days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+  today = myDate.getDate(),
+  year = myDate.getFullYear(),
+  header = document.querySelector(".header"),
+  conditions = document.querySelectorAll(".condition-statement");
 
-document.querySelector(".day").innerText = days[myDate.getDay()];
-document.querySelector(".date").innerText = `${myDate.getDate()}th`;
-document.querySelector(".month").innerText = months[myDate.getMonth()];
-document.querySelector(".year").innerText = year;
-
-showWeeklyCalendar();
-loadLocalStorage(today, months[myDate.getMonth()], year)
-
-function showWeeklyCalendar() {
-    const div = document.createElement("div");
-    div.classList.add("calendar");
-    header.appendChild(div);
-    for(let j = 0; j < 7; j++) {
-        myDiv = document.createElement("div");
-        let divDate = document.createElement("div");
-        let textDate = document.createTextNode(new Date(myDate.setDate(myDate.getDate() - myDate.getDay() + j)).getDate());
-        let divDay = document.createElement("div");
-        let textDay = document.createTextNode(days[j]);
-        divDate.appendChild(textDate);
-        divDay.appendChild(textDay);
-        myDiv.classList.add("another-day-content");
-        if (textDate.data === String(today)) {
-            myDiv.classList.add("today-content")
-        }
-        myDiv.appendChild(divDate);
-        myDiv.appendChild(divDay);  
-        div.appendChild(myDiv);
-        myDiv.addEventListener("click", (event) => {
-            div.querySelectorAll(".another-day-content").forEach(item => {
-                if(item.classList.contains("highlight")) {
-                    item.classList.remove("highlight")
-                }
-                if (item.classList.contains("today-content")) {
-                    item.classList.replace("today-content", "today-highlight");
-                } else {
-                    event.target.classList.add("highlight");
-                }
-            })
-            
-            if (event.target.classList.contains("today-highlight")) {
-                event.target.classList.replace("today-highlight", "today-content");
-                event.target.classList.remove("highlight")
-            }
-            div.querySelectorAll(".another-day-content").forEach(item => {
-                item.childNodes.forEach(element => {
-                    element.classList.remove("highlight");
-                })
-            })
-        })
-    }
-}
-
-
-document.querySelectorAll(".condition-statement").forEach(item => {
-    item.addEventListener("click", event => {
-        const condition = document.querySelector(".condition").querySelectorAll("div");
-        condition.forEach(item => {
-            if(item.classList.contains("condition-statement-clicked")) {
-                item.classList.remove("condition-statement-clicked");
-            }
-        })
-        event.target.classList.add("condition-statement-clicked");
-    })
-})
-
-
-
+document.addEventListener("DOMContentLoaded", showWeeklyCalendar());
 
 const daysOfWeek = header.children[2].children;
 
-[...daysOfWeek].forEach((item) => {
-    item.addEventListener("click", (event) => {
-        const dateOfWeek = event.target.children[0].innerText;
-        if (item.children[0].innerText == 1 && item.classList.contains("today-content")) {
-            monthOfWeek = header.children[0].children[0].children[2].innerText;
-            yearOfWeek = header.children[0].children[0].children[3].innerText;
-        } else if(item.children[0].innerText == 2 || item.children[0].innerText == 3 || item.children[0].innerText == 4 || item.children[0].innerText == 5 || item.children[0].innerText == 6 || item.children[0].innerText == 7) {
-            monthOfWeek = header.children[0].children[0].children[2].innerText;
-            yearOfWeek = header.children[0].children[0].children[3].innerText;
-        } else {
-            monthOfWeek = months[myDate.getMonth() - 1];
-            if(myDate.getMonth() - 1 === -1) {
-                yearOfWeek = year - 1;
-                monthOfWeek = "December";
-            } else if (myDate.getMonth() - 1 === 12) {
-                yearOfWeek = year + 1;
-                monthOfWeek = "January";
-            } else {
-                monthOfWeek = months[myDate.getMonth() - 1];
-                yearOfWeek = year;
-            }
-        }
-        loadLocalStorage(dateOfWeek, monthOfWeek, yearOfWeek);
-    })
-})
+function showWeeklyCalendar() {
+  showToday();
+  const calendarDiv = document.createElement("div");
+  calendarDiv.classList.add("calendar");
+  header.appendChild(calendarDiv);
+  makeCalendar(calendarDiv);
+  loadLocalStorage(today, months[new Date().getMonth()], year);
+}
 
-// console.log(getData)
+function showToday() {
+  document.querySelector(".day").innerText = days[myDate.getDay()];
+  document.querySelector(".date").innerText = `${myDate.getDate()}th`;
+  document.querySelector(".month").innerText = months[myDate.getMonth()];
+  document.querySelector(".year").innerText = year;
+}
+
+function makeCalendar(calendarDiv) {
+  for (let j = 0; j < 7; j++) {
+    const daysDiv = document.createElement("div"),
+      textDate = document.createTextNode(
+        new Date(
+          myDate.setDate(myDate.getDate() - myDate.getDay() + j)
+        ).getDate()
+      ),
+      textDay = document.createTextNode(days[j]);
+    let hiddenDiv, divDate, divDay;
+    daysDiv.classList.add("another-day-content");
+    if (textDate.data === String(today)) {
+      daysDiv.classList.add("today-content");
+    }
+    makeTagTextNode(divDate, textDate, daysDiv);
+    makeTagTextNode(divDay, textDay, daysDiv);
+    makeDivTag(hiddenDiv, daysDiv, "year", j);
+    calendarDiv.appendChild(daysDiv);
+    daysDiv.addEventListener("click", () =>
+      changeDaysClass(event, calendarDiv)
+    );
+  }
+}
+
+function makeTagTextNode(tagName, nodeText, appendTag) {
+  tagName = document.createElement("div");
+  tagName.appendChild(nodeText);
+  appendTag.appendChild(tagName);
+}
+
+function makeDivTag(tagName, appendTag, className, tagText) {
+  tagName = document.createElement("div");
+  appendTag.appendChild(tagName);
+  tagName.classList.add(className);
+  tagName.innerText = tagText;
+  return tagName;
+}
+
+function makeImageTag(tagName, appendTag, source, className) {
+  tagName = document.createElement("img");
+  appendTag.appendChild(tagName);
+  tagName.src = source;
+  tagName.classList.add(className);
+}
+
+function changeDaysClass(event, calendarDiv) {
+  calendarDiv.querySelectorAll(".another-day-content").forEach((day) => {
+    if (day.classList.contains("highlight")) {
+      day.classList.remove("highlight");
+    }
+    if (day.classList.contains("today-content")) {
+      day.classList.replace("today-content", "today-highlight");
+    } else {
+      event.target.classList.add("highlight");
+    }
+  });
+
+  if (event.target.classList.contains("today-highlight")) {
+    event.target.classList.replace("today-highlight", "today-content");
+    event.target.classList.remove("highlight");
+  }
+  calendarDiv.querySelectorAll(".another-day-content").forEach((day) => {
+    day.childNodes.forEach((element) => {
+      element.classList.remove("highlight");
+    });
+  });
+}
+
+function changeConditionsClass(event) {
+  const satates = document.querySelectorAll(".condition-statement");
+  satates.forEach((state) => {
+    if (state.classList.contains("condition-statement-clicked")) {
+      state.classList.remove("condition-statement-clicked");
+    }
+  });
+  event.target.classList.add("condition-statement-clicked");
+}
 
 function loadLocalStorage(date, month, year) {
-    const getData = JSON.parse(localStorage.getItem("todo"));
-    const cards = document.querySelector(".cards");
-    cards.innerHTML = "";
-    getData.forEach(item => {
-        if(item["date"] == date && item["month"] == month && item["year"] == year && item["task"] ) {
-            const divCard = document.createElement("div");
-            divCard.classList.add("card");
-            cards.appendChild(divCard);
-            const imageCard = document.createElement("div");
-            imageCard.classList.add("act-com-img");
-            divCard.appendChild(imageCard);
-            const image = document.createElement("img");
-            image.src = "../images/active.png";
-            imageCard.appendChild(image);
-            const taskDiv = document.createElement("div");
-            taskDiv.classList.add("task-content");
-            divCard.appendChild(taskDiv);
-            const taskNotesDiv = document.createElement("div");
-            taskDiv.appendChild(taskNotesDiv);
-            const topicDiv = document.createElement("div");
-            topicDiv.innerText = item["task"]
-            topicDiv.classList.add("topic");
-            taskNotesDiv.appendChild(topicDiv);
-            const notesDiv = document.createElement("div");
-            notesDiv.innerText = item["note"];
-            notesDiv.classList.add("note")
-            taskNotesDiv.appendChild(notesDiv);
-            const deleteCompleteDiv = document.createElement("div");
-            deleteCompleteDiv.classList.add("delete-complete");
-            taskDiv.appendChild(deleteCompleteDiv);
-            const completeImage = document.createElement("img");
-            completeImage.src = "../images/completed.png";
-            completeImage.classList.add("complete-img");
-            deleteCompleteDiv.appendChild(completeImage);
-            const deleteImage = document.createElement("img");
-            deleteImage.src = "../images/remove.png";
-            deleteImage.classList.add("delete-img");
-            deleteCompleteDiv.appendChild(deleteImage);
-        }
-    })
-}
-
-function removeLocalStorage(todo, note) {
-    let todos;
-    if (localStorage.getItem("todo") === null) {
-        todos = [];
-    } else {
-        todos = JSON.parse(localStorage.getItem("todo"));
+  const getData = JSON.parse(localStorage.getItem("todo"));
+  const cards = document.querySelector(".cards");
+  cards.innerHTML = "";
+  getData.forEach((item) => {
+    if (
+      item["date"] == date &&
+      item["month"] == month &&
+      item["year"] == year &&
+      item["task"]
+    ) {
+      let divCard,
+        imageCard,
+        taskDiv,
+        topicDiv,
+        notesDiv,
+        deleteCompleteDiv,
+        image,
+        completeImage,
+        deleteImage;
+      const divCardTag = makeDivTag(divCard, cards, "card", ""),
+        taskNotesDiv = document.createElement("div"),
+        imageCardTag = makeDivTag(imageCard, divCardTag, "act-com-img", ""),
+        taskDivTag = makeDivTag(taskDiv, divCardTag, "task-content", "");
+      makeDivTag(topicDiv, taskNotesDiv, "topic", item["task"]);
+      makeDivTag(notesDiv, taskNotesDiv, "note", item["note"]);
+      makeImageTag(image, imageCardTag, "../images/active.png");
+      taskDivTag.appendChild(taskNotesDiv);
+      const deleteCompleteDivTag = makeDivTag(
+        deleteCompleteDiv,
+        taskDivTag,
+        "delete-complete",
+        ""
+      );
+      makeImageTag(
+        completeImage,
+        deleteCompleteDivTag,
+        "../images/completed.png",
+        "complete-img"
+      );
+      makeImageTag(
+        deleteImage,
+        deleteCompleteDivTag,
+        "../images/remove.png",
+        "delete-img"
+      );
     }
-    const days = header.children[2].children;
-    let date;
-    let month = header.children[0].children[0].children[2].innerText;
-    let year = header.children[0].children[0].children[3].innerText;
-    [...days].forEach(item => {
-        if(item.classList.contains("today-content") || item.classList.contains("highlight")) {
-            date = item.children[0].innerText;
-        }
-        
-    })
-    todos.forEach((item, index) => {
-        if(item["date"] == date && item["month"] == month && item["year"] == year && item["task"] == todo && item["note"] == note ) {
-            todos.splice(index, 1)
-        }
-    })
-
-    localStorage.setItem("todo", JSON.stringify(todos));
+  });
 }
+
+function removeLocalStorage(todo, note, month, year) {
+  const days = header.children[2].children;
+  let todos, date;
+  if (localStorage.getItem("todo") === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem("todo"));
+  }
+  [...days].forEach((item) => {
+    if (
+      item.classList.contains("today-content") ||
+      item.classList.contains("highlight")
+    ) {
+      date = item.children[0].innerText;
+    }
+  });
+
+  todos.forEach((todoItem, index) => {
+    if (
+      todoItem["date"] == date &&
+      todoItem["month"] == month &&
+      todoItem["year"] == year &&
+      todoItem["task"] == todo &&
+      todoItem["note"] == note
+    ) {
+      todos.splice(index, 1);
+    }
+  });
+  localStorage.setItem("todo", JSON.stringify(todos));
+}
+
+function completeHandler(event) {
+  if (event.target.classList.contains("complete-img")) {
+    event.target.parentElement.previousSibling.children[0].classList.toggle(
+      "complete"
+    );
+    event.target.parentElement.parentElement.parentElement.classList.toggle(
+      "hide"
+    );
+    if (
+      event.target.parentElement.previousSibling.children[0].classList.contains(
+        "complete"
+      )
+    ) {
+      event.target.parentElement.parentElement.previousSibling.children[0].src =
+        "../images/complete.png";
+      event.target.src = "../images/delete.png";
+    } else {
+      event.target.parentElement.parentElement.previousSibling.children[0].src =
+        "../images/active.png";
+      event.target.src = "../images/completed.png";
+    }
+  }
+}
+
+function deleteHandler(event) {
+  if (event.target.classList.contains("delete-img")) {
+    const removeText =
+      event.target.parentElement.parentElement.firstChild.firstChild.innerText;
+    const note =
+      event.target.parentElement.parentElement.firstChild.children[1].innerText;
+    let month, year;
+    document.querySelectorAll(".another-day-content").forEach((dayOfWeek) => {
+      [
+        ...event.target.parentElement.parentElement.parentElement.parentElement
+          .parentElement.previousElementSibling.children[2].children,
+      ].forEach((day) => {
+        if (
+          dayOfWeek.classList.contains("today-content") ||
+          dayOfWeek.classList.contains("today-highlight")
+        ) {
+          if (
+            day.classList.contains("today-content") ||
+            day.classList.contains("highlight")
+          ) {
+            if (
+              Number(day.children[2].innerText) <
+                Number(dayOfWeek.children[2].innerText) &&
+              Number(day.children[0].innerText) >
+                Number(dayOfWeek.children[0].innerText)
+            ) {
+              month =
+                new Date().getMonth() == 0
+                  ? "December"
+                  : months[new Date().getMonth() - 1];
+              year =
+                new Date().getMonth() == 0
+                  ? new Date().getFullYear() - 1
+                  : header.children[0].children[0].children[3].innerText;
+            } else if (
+              Number(day.children[2].innerText) >
+                Number(dayOfWeek.children[2].innerText) &&
+              Number(day.children[0].innerText) <
+                Number(dayOfWeek.children[0].innerText)
+            ) {
+              month =
+                new Date().getMonth() == 11
+                  ? "January"
+                  : months[new Date().getMonth() + 1];
+              year =
+                new Date().getMonth() == 11
+                  ? new Date().getFullYear() + 1
+                  : header.children[0].children[0].children[3].innerText;
+            } else {
+              month = header.children[0].children[0].children[2].innerText;
+              year = header.children[0].children[0].children[3].innerText;
+            }
+          }
+        }
+      });
+    });
+    removeLocalStorage(removeText, note, month, year);
+    event.target.parentElement.parentElement.parentElement.remove();
+  }
+}
+
+function iconClickHandler(event) {
+  completeHandler(event);
+  deleteHandler(event);
+}
+
+function conditionHandler(event) {
+  [...cards.children].forEach((card) => {
+    if (event.target.innerText === "All") {
+      card.style.display = "flex";
+    } else if (event.target.innerText === "Complete") {
+      if (
+        card.children[1].children[0].children[0].classList.contains("complete")
+      ) {
+        card.style.display = "flex";
+      } else {
+        card.style.display = "none";
+      }
+    } else if (event.target.innerText === "Active") {
+      if (
+        card.children[1].children[0].children[0].classList.contains("complete")
+      ) {
+        card.style.display = "none";
+      } else {
+        card.style.display = "flex";
+      }
+    }
+  });
+}
+
+conditions.forEach((condition) => {
+  condition.addEventListener("click", changeConditionsClass);
+});
+
+[...daysOfWeek].forEach((item) => {
+  item.addEventListener("click", (event) => {
+    const dateOfWeek = event.target.children[0].innerText;
+    const calendar = item.parentElement.children;
+    let yearOfWeek;
+    let monthOfWeek;
+    [...calendar].forEach((dayOfWeek) => {
+      if (
+        dayOfWeek.classList.contains("today-highlight") ||
+        dayOfWeek.classList.contains("today-content")
+      ) {
+        if (
+          Number(event.target.children[2].innerText) <
+            Number(dayOfWeek.children[2].innerText) &&
+          Number(event.target.children[0].innerText) >
+            Number(dayOfWeek.children[0].innerText)
+        ) {
+          monthOfWeek =
+            new Date().getMonth() == 0
+              ? "December"
+              : months[new Date().getMonth() - 1];
+          yearOfWeek =
+            new Date().getMonth() == 0
+              ? new Date().getFullYear() - 1
+              : header.children[0].children[0].children[3].innerText;
+        } else if (
+          Number(event.target.children[2].innerText) >
+            Number(dayOfWeek.children[2].innerText) &&
+          Number(event.target.children[0].innerText) <
+            Number(dayOfWeek.children[0].innerText)
+        ) {
+          monthOfWeek =
+            new Date().getMonth() == 11
+              ? "January"
+              : months[new Date().getMonth() + 1];
+          yearOfWeek =
+            new Date().getMonth() == 11
+              ? new Date().getFullYear() + 1
+              : header.children[0].children[0].children[3].innerText;
+        } else {
+          monthOfWeek = header.children[0].children[0].children[2].innerText;
+          yearOfWeek = header.children[0].children[0].children[3].innerText;
+        }
+      }
+    });
+    loadLocalStorage(dateOfWeek, monthOfWeek, yearOfWeek);
+  });
+});
 
 const cards = document.querySelector(".cards");
 
-cards.addEventListener("click", event => {
-    if (event.target.classList.contains("complete-img")) {
-        event.target.parentElement.previousSibling.children[0].classList.toggle("complete");
-        event.target.parentElement.parentElement.parentElement.classList.toggle("hide");
-        if (event.target.parentElement.previousSibling.children[0].classList.contains("complete")) {
-            event.target.parentElement.parentElement.previousSibling.children[0].src = "../images/complete.png";
-            event.target.src = "../images/delete.png";
-        } else {
-            event.target.parentElement.parentElement.previousSibling.children[0].src = "../images/active.png";
-            event.target.src = "../images/completed.png";
-        }
-    }
-    if (event.target.classList.contains("delete-img")) {
-        const removeText = event.target.parentElement.parentElement.firstChild.firstChild.innerText;
-        const note = event.target.parentElement.parentElement.firstChild.children[1].innerText;
-        event.target.parentElement.parentElement.parentElement.remove();
-        removeLocalStorage(removeText, note);
-    }
-})
+cards.addEventListener("click", iconClickHandler);
 
-document.querySelector(".condition").addEventListener("click", event => {
-    if(event.target.innerText === "All") {
-        [...cards.children].forEach(item => item.style.display = "flex")
-    } else if (event.target.innerText === "Complete") {
-        [...cards.children].forEach(item => {
-            if (item.children[1].children[0].children[0].classList.contains("complete")) {
-                item.style.display = "flex";
-            } else {
-                item.style.display = "none";
-            }
-        })
-    } else if (event.target.innerText === "Active") {
-        [...cards.children].forEach(item => {
-            if (item.children[1].children[0].children[0].classList.contains("complete")) {
-                item.style.display = "none";
-            } else {
-                item.style.display = "flex";
-            }
-        })
-    }
-})
-
-
+document
+  .querySelector(".condition")
+  .addEventListener("click", conditionHandler);
