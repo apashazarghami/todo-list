@@ -1,44 +1,43 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>To Do List</title>
-        <link rel="stylesheet" href="/styles/style.css" />
-    </head>
-    <body>
-        <div class="container">
-            <header class="header">
-                <div class="header-content">
-                    <div>
-                        <span class="day"></span> <span class="date"></span> <span class="month"></span> <span class="year"></span>
-                    </div>
-                    <div>
-                        <img src="/images/more.png" alt="more" />
-                    </div>
-                </div>
-                <div class="todo-list">
-                    <h3>ToDo List</h3>
-                </div>
-            </header>
-            <main>
-                <div class="condition">
-                    <div class="condition-statement condition-statement-clicked">All</div>
-                    <div class="condition-statement">Complete</div>
-                    <div class="condition-statement">Active</div>
-                </div>
-                <div class="cards">
-                    
-                </div>
-            </main>
-            <div>
-                <div class="add-content">
-                    <a href="/calendar.html">
-                        <img src="/images/add.png" alt="add" />
-                    </a>
-                </div>
-            </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do List</title>
+    <link rel="stylesheet" href="/styles/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="header-content">
+          <div>
+            <span class="day"></span> <span class="date"></span>
+            <span class="month"></span> <span class="year"></span>
+          </div>
+          <div>
+            <img src="/images/more.png" alt="more" />
+          </div>
         </div>
-        <script src="/javascript/main.js" type="module"></script>
-    </body>
+        <div class="todo-list">
+          <h3>ToDo List</h3>
+        </div>
+      </header>
+      <main>
+        <div class="condition">
+          <div class="condition-statement condition-statement-clicked">All</div>
+          <div class="condition-statement">Complete</div>
+          <div class="condition-statement">Active</div>
+        </div>
+        <div class="cards"></div>
+      </main>
+      <div>
+        <div class="add-content">
+          <a href="/calendar.html">
+            <img src="/images/add.png" alt="add" />
+          </a>
+        </div>
+      </div>
+    </div>
+    <script src="/javascript/main.js" type="module"></script>
+  </body>
 </html>

@@ -1,54 +1,62 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Calendar</title>
-        <link rel="stylesheet" href="/styles/calendar.css" />
-    </head>
-    <body>
-        <div class="container">
-            <header class="header">
-                <div class="header-content">
-                   <a href="/index.html"><img src="/images/arrow-left.png" alt="arrow-left" /></a>
-                   <img src="/images/more.png" alt="more" /> 
-                </div>
-                <div class="header-content">
-                    <h3 class="heading">
-                        New Task
-                    </h3>
-                    <div>
-                        <span class="day"></span> <span class="date"></span><span>th</span> <span class="month"></span>
-                    </div>
-                </div>
-            </header>
-            <main class="main">
-                <div class="previous-next-month">
-                    <a class="previous-month" href="#"></a>
-                    <div>
-                        <span class="month-of-year"></span> <span class="year"></span>
-                    </div>
-                    <a class="next-month" href="#"></a>
-                </div>
-                <div>
-                    <table class="calendar">
-                        <tbody class="t-body"></tbody>
-                    </table>
-                </div>
-            </main>
-            <div class="add-task-card">
-                <div class="new-task-section">
-                    <h3 class="title">New Task</h3>
-                    <input class="new-task-input" type="text" placeholder="Meeting: UX Case" />
-                </div>
-                <div class="notes-section">
-                    <h3 class="title">Notes</h3>
-                    <input class="notes-input" type="text" placeholder="Discuss: militon" />
-                </div>
-                    <div class="add-task-button">ADD TASK</div>
-                </div>
-            </div>
-        </div> 
-        <script src="/javascript/calendar.js" type="module"></script>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title>
+    <link rel="stylesheet" href="/styles/calendar.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="header-content">
+          <a href="/index.html"
+            ><img src="/images/arrow-left.png" alt="arrow-left"
+          /></a>
+          <img src="/images/more.png" alt="more" />
+        </div>
+        <div class="header-content">
+          <h3 class="heading">New Task</h3>
+          <div>
+            <span class="day"></span> <span class="date"></span><span>th</span>
+            <span class="month"></span>
+          </div>
+        </div>
+      </header>
+      <main class="main">
+        <div class="previous-next-month">
+          <a class="previous-month" href="#"></a>
+          <div>
+            <span class="month-of-year"></span> <span class="year"></span>
+          </div>
+          <a class="next-month" href="#"></a>
+        </div>
+        <div>
+          <table class="calendar">
+            <tbody class="t-body"></tbody>
+          </table>
+        </div>
+      </main>
+      <div class="add-task-card">
+        <div class="new-task-section">
+          <h3 class="title">New Task</h3>
+          <input
+            class="new-task-input"
+            type="text"
+            placeholder="Meeting: UX Case"
+          />
+        </div>
+        <div class="notes-section">
+          <h3 class="title">Notes</h3>
+          <input
+            class="notes-input"
+            type="text"
+            placeholder="Discuss: militon"
+          />
+        </div>
+        <div class="add-task-button">ADD TASK</div>
+      </div>
+    </div>
+    <script src="/javascript/calendar.js"></script>
+  </body>
 </html>
