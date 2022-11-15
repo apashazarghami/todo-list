@@ -143,7 +143,7 @@ function loadLocalStorage(date, month, year) {
         taskDivTag = makeDivTag(taskDiv, divCardTag, "task-content", "");
       makeDivTag(topicDiv, taskNotesDiv, "topic", item["task"]);
       makeDivTag(notesDiv, taskNotesDiv, "note", item["note"]);
-      makeImageTag(image, imageCardTag, "../images/active.png");
+      makeImageTag(image, imageCardTag, "./images/active.png");
       taskDivTag.appendChild(taskNotesDiv);
       const deleteCompleteDivTag = makeDivTag(
         deleteCompleteDiv,
@@ -154,13 +154,13 @@ function loadLocalStorage(date, month, year) {
       makeImageTag(
         completeImage,
         deleteCompleteDivTag,
-        "../images/completed.png",
+        "./images/completed.png",
         "complete-img"
       );
       makeImageTag(
         deleteImage,
         deleteCompleteDivTag,
-        "../images/remove.png",
+        "./images/remove.png",
         "delete-img"
       );
     }
@@ -212,12 +212,12 @@ function completeHandler(event) {
       )
     ) {
       event.target.parentElement.parentElement.previousSibling.children[0].src =
-        "../images/complete.png";
-      event.target.src = "../images/delete.png";
+        "./images/complete.png";
+      event.target.src = "./images/delete.png";
     } else {
       event.target.parentElement.parentElement.previousSibling.children[0].src =
-        "../images/active.png";
-      event.target.src = "../images/completed.png";
+        "./images/active.png";
+      event.target.src = "./images/completed.png";
     }
   }
 }
