@@ -92,7 +92,7 @@
 .calendar {
   width: 100%;
   border-spacing: 0.5rem;
-  padding: 0 2.5rem 0.5rem 2.5rem;
+  padding: 0 1rem 0.5rem 1rem;
 }
 
 .date-of-month {
@@ -100,7 +100,8 @@
   border-top-left-radius: 5rem;
   border-bottom-right-radius: 5rem;
   width: 14.28%;
-  height: 3rem;
+  width: 1fr;
+  height: 4rem;
   text-align: center;
   cursor: pointer;
 }
@@ -110,7 +111,7 @@
   border-top-left-radius: 5rem;
   border-bottom-right-radius: 5rem;
   width: 14.28%;
-  height: 3rem;
+  height: 4rem;
   opacity: 0.5;
   visibility: hidden;
 }
@@ -225,9 +226,6 @@
 }
 
 .schedule {
-  /* display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr); */
   margin: 0.5rem 3rem;
 }
 
@@ -294,7 +292,6 @@
   padding: 0.15rem;
   height: 1.25rem;
   font-size: 0.9rem;
-  /* margin-left: 0.5rem; */
   color: #595959;
 }
 
@@ -317,5 +314,9 @@
   .add-task-card {
     width: 300px;
     margin-bottom: 2rem;
+  }
+
+  .date-of-month, .no-day {
+    height: 3rem;
   }
 }

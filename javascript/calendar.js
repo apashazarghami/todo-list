@@ -70,9 +70,7 @@ function makeCalendar(year, month, day) {
     for (let j = 0; j < 7; j++) {
       if (i === 0 && j < day) {
         let cell = document.createElement("td");
-        // let textCell = document.createTextNode("");
         cell.classList.add("no-day");
-        // cell.appendChild(textCell);
         tableRow.appendChild(cell);
       } else if (date > daysInMonth(year, month)) {
         break;
